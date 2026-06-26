@@ -18,7 +18,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "FlowEdit | Professional Video Editing for Creators",
+  title: "FlowEdit | Video Editing Services",
   description: "Professional video editing subscriptions for creators, businesses, and brands. Upload your footage, collaborate with a dedicated editing team, and receive high-quality videos with fast turnaround times.",
 };
 
