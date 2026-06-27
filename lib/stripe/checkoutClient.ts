@@ -1,39 +1,45 @@
-import { stripePriceIds, PeriodKey } from "./prices";
+import {
+  normalizePeriodKey,
+  normalizePlanKey,
+  PeriodKey,
+  PlanKey,
+} from "./prices";
 
-export async function startCheckout(planName: string, period: PeriodKey) {
-  const plan = stripePriceIds[planName];
-  if (!plan) {
-    console.warn(`Missing stripe price mapping for plan: ${planName}`);
-    return;
-  }
+type CheckoutResponse = {
+  url?: string;
+  error?: string;
+};
 
-  const priceId = plan[period];
-  if (!priceId) {
-    console.warn(`Missing price id for ${planName} / ${period}`);
-    return;
-  }
+export async function startCheckout(plan: PlanKey | string, period: PeriodKey | string) {
+  const normalizedPlan = normalizePlanKey(plan);
+  const normalizedPeriod = normalizePeriodKey(period);
 
+  const res = await fetch("/api/create-checkout-session", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      plan: normalizedPlan,
+      period: normalizedPeriod,
+    }),
+  });
+
+  let payload: CheckoutResponse | null = null;
   try {
-    const res = await fetch(`/api/create-checkout-session`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ priceId }),
-    });
-
-    if (!res.ok) {
-      console.error("Failed to create checkout session", await res.text());
-      return;
-    }
-
-    const data = await res.json();
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      console.error("No checkout url returned from server");
-    }
-  } catch (err) {
-    console.error("Checkout failed", err);
+    payload = (await res.json()) as CheckoutResponse;
+  } catch {
+    payload = null;
   }
+
+  if (!res.ok) {
+    const message = payload?.error || "Failed to create Stripe Checkout session";
+    throw new Error(message);
+  }
+
+  if (!payload?.url) {
+    throw new Error("Stripe Checkout URL was not returned by the server");
+  }
+
+  window.location.assign(payload.url);
 }

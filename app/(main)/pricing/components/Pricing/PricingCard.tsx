@@ -2,19 +2,17 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { toast } from "sonner";
 import DiamondIcon from "@/components/shared/DiamondCheckIcon";
-import { useCreateTrileMutation } from "@/redux/features/payment/paymentApi";
-import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import { setCredentials } from "@/redux/features/auth/authSlice";
+import { useAppSelector } from "@/redux/hooks";
 
 import { useGetSubcriptionQuery } from "@/redux/features/payment/subscription";
 import { transformBackendToPlans, mockBackendResponse } from "./transformPlans";
 import { Plan, PeriodType, PlanType } from "./subscription";
 import PriceUpdateModal from "./PricingUpdateModal";
+import { startCheckout } from "@/lib/stripe/checkoutClient";
 
 export default function PricingCard() {
     const { data: apiData, isLoading: isLoadingPlans, error } = useGetSubcriptionQuery({});
@@ -25,10 +23,6 @@ export default function PricingCard() {
 
     const role = useAppSelector((state) => state.auth.role);
     const isAdmin = role === "ADMIN";
-    const { token, isTrial, isSubscribed } = useAppSelector((state) => state.auth);
-    const dispatch = useAppDispatch();
-    const [createTrial, { isLoading: isTrialLoading }] = useCreateTrileMutation();
-    const router = useRouter();
 
     const basePlans = useMemo<Plan[]>(() => {
         if (apiData) {
@@ -80,55 +74,21 @@ export default function PricingCard() {
     };
 
     const handleSubscribe = async (planTitle: PlanType) => {
-      
-        if (!token) {
-            return router.push("/signup?redirect=/pricing");
-        }
-
-        
-        if (!isTrial && !isSubscribed) {
-            try {
-                await createTrial({
-                    plan: planTitle,
-                    interval: planType.toUpperCase(),
-                }).unwrap();
-
-                toast.success("Trial started successfully!");
-
-                dispatch(setCredentials({
-                    isTrial: true,
-                    isSubscribed: false,
-                }));
-
-                return;
-            } catch (error) {
-                console.log("Trial failed:", error);
-                return;
-            }
-        }
-
-     
-        if (isTrial && !isSubscribed) {
-            return router.push("/subscribe");
-        }
-
-       
-        if (isSubscribed) {
-            return router.push("https://flow-edit-one.vercel.app/dashboard");
+        try {
+            await startCheckout(planTitle, planType);
+        } catch (error) {
+            const message =
+                error instanceof Error
+                    ? error.message
+                    : "Unable to start checkout. Please try again.";
+            toast.error(message);
         }
     };
 
-    const trialTextByPeriod: Record<PeriodType, string> = {
-        monthly: "Start 7-Day Free Trial",
-        semiannual: "Start 14-Day Free Trial",
-        annual: "Start 21-Day Free Trial",
-    };
-
-    const getButtonText = () => {
-        if (!isTrial && !isSubscribed) return trialTextByPeriod[planType];
-        if (isTrial && !isSubscribed) return `Subscribe Now `;
-        if (isSubscribed) return "Go to Dashboard";
-        return "Select Plan";
+    const getButtonText = (type: PeriodType) => {
+        if (type === "semiannual") return "Start 14-Day Free Trial";
+        if (type === "annual") return "Start 21-Day Free Trial";
+        return "Start 7-Day Free Trial";
     };
 
     const getDiscountPercent = (planTitle: PlanType, type: PeriodType) => {
@@ -249,20 +209,12 @@ export default function PricingCard() {
 
                                 <button
                                     onClick={() => handleSubscribe(plan.title)}
-                                    disabled={isTrialLoading || (isTrial && isSubscribed)}
-                                    className={`w-full mt-9 py-3.5 rounded-xl font-medium transition-all duration-200 ${plan.glow
+                                    className={`w-full mt-9 py-3.5 rounded-xl font-medium transition-all duration-200 transform-gpu hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98] active:translate-y-0 ${plan.glow
                                             ? "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg"
                                             : "bg-blue-600 hover:bg-blue-700 text-white"
                                         } disabled:opacity-60 disabled:cursor-not-allowed`}
                                 >
-                                    {isTrialLoading ? (
-                                        <span className="flex items-center justify-center gap-2">
-                                            <span className="animate-spin">⚪</span>
-                                            Processing...
-                                        </span>
-                                    ) : (
-                                        getButtonText()
-                                    )}
+                                    {getButtonText(planType)}
                                 </button>
                             </div>
                         </div>

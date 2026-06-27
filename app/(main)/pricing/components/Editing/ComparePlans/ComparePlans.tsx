@@ -9,9 +9,8 @@ import ComparePlansModal from "../UpdateComparism";
 import Image from "next/image";
 import { comparisonRows, planHeaders } from "./comparisonData";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import { startCheckout } from "@/lib/stripe/checkoutClient";
-import { PeriodKey } from "@/lib/stripe/prices";
+import { toast } from "sonner";
 
 import { PlanType as BillingPeriod } from "@/components/shared/ToggleSwitch";
 
@@ -41,10 +40,7 @@ interface Props {
 
 export default function ComparePlans({ currentPeriod = "monthly" }: Props) {
   const { data, isLoading } = useGetPlansQuery(undefined);
-  const router = useRouter();
-  const { role, token, isSubscribed } = useAppSelector(
-    (state) => state.auth
-  );
+  const { role } = useAppSelector((state) => state.auth);
   const isAdmin = role === "ADMIN";
 
   const plans = useMemo(() => {
@@ -74,18 +70,15 @@ export default function ComparePlans({ currentPeriod = "monthly" }: Props) {
     "h-auto bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg px-4 py-3.5 rounded-xl font-medium transition-all duration-200";
 
   const handleStartNow = async (planName: string) => {
-    if (!token) {
-      router.push("/signup?redirect=/pricing");
-      return;
+    try {
+      await startCheckout(planName, currentPeriod);
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Unable to start checkout. Please try again.";
+      toast.error(message);
     }
-
-    if (isSubscribed) {
-      router.push("https://flow-edit-one.vercel.app/dashboard");
-      return;
-    }
-
-    // Start Stripe Checkout using centralized helper
-    await startCheckout(planName, currentPeriod as PeriodKey);
   };
 
   if (isLoading) {
