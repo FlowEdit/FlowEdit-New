@@ -8,6 +8,7 @@ import SiteButton from "../SiteButton";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 import { logOut } from "@/redux/features/auth/authSlice";
+import { LAUNCH_PAYMENT_LINK } from "@/lib/stripe/stripePaymentLinks";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -66,14 +67,16 @@ export default function Navbar() {
         className={`fixed top-0 left-0 z-30 w-full px-6 md:px-10 lg:px-20.5 py-6 transition-all duration-300
  ${isScrolled ? "bg-white/80 backdrop-blur-md text-black shadow-md" : "bg-transparent text-white"}
 `}>
-        <div className='flex items-center justify-between'>
-          <Link href='/' className="min-w-[180px]">
+        <div className='relative flex items-center justify-between lg:justify-center min-h-[44px]'>
+          <Link
+            href='/'
+            className='min-w-[180px] lg:absolute lg:left-0 lg:top-1/2 lg:-translate-y-1/2'>
             {" "}
             <p className='text-xl font-medium'>Flow Edit</p>
           </Link>
 
 
-          <div className=" lg:flex items-center gap-12 text-base font-medium hidden">
+          <div className='hidden lg:flex items-center gap-12 text-base font-medium lg:absolute lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2'>
             <Link href='/'>
               <p>Home</p>
             </Link>
@@ -86,7 +89,7 @@ export default function Navbar() {
 
           </div>
 
-          <div className="lg:flex gap-8 hidden">
+          <div className='hidden lg:flex gap-8 lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2'>
             {
               token ? <div className="flex items-center justify-center border rounded-full w-10 h-10"><User /> </div> : <Link href='/login'>
                 {" "}
@@ -97,9 +100,11 @@ export default function Navbar() {
             }
             {
               token ? <button onClick={handleLogout} className="px-4  py-2 rounded-md border bg-white text-black "> Logout</button> : <div className='w-full sm:w-fit shadow-2xl'>
-                <SiteButton className='bg-[#B6C7F5]/30 w-full hover:bg-[#B6C7F5]/30'>
-                  Start for Free
-                </SiteButton>
+                <Link href={LAUNCH_PAYMENT_LINK}>
+                  <SiteButton className='bg-[#B6C7F5]/30 w-full hover:bg-[#B6C7F5]/30'>
+                    Start for Free
+                  </SiteButton>
+                </Link>
               </div>
             }
           </div>

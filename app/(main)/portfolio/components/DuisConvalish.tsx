@@ -4,6 +4,8 @@
 
 import SiteButton from "@/components/shared/SiteButton";
 import Image from "next/image";
+import Link from "next/link";
+import { LAUNCH_PAYMENT_LINK } from "@/lib/stripe/stripePaymentLinks";
 
 const projects = [
   {
@@ -98,9 +100,11 @@ export default function ProjectShowcase() {
             Amet sem.
           </p>
           <div className='w-full sm:w-fit shadow-2xl'>
-            <SiteButton className='bg-[#B6C7F5]/30 w-full hover:bg-[#B6C7F5]/30'>
-              Start for Free
-            </SiteButton>
+            <Link href={LAUNCH_PAYMENT_LINK}>
+              <SiteButton className='bg-[#B6C7F5]/30 w-full hover:bg-[#B6C7F5]/30'>
+                Start for Free
+              </SiteButton>
+            </Link>
           </div>
         </div>
       </div>

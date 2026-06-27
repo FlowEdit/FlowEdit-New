@@ -3,6 +3,8 @@
 import SiteButton from "@/components/shared/SiteButton";
 import Image from "next/image";
 import React from "react";
+import Link from "next/link";
+import { LAUNCH_PAYMENT_LINK } from "@/lib/stripe/stripePaymentLinks";
 
 export default function Duies2ndPart() {
   return (
@@ -21,9 +23,11 @@ export default function Duies2ndPart() {
             Amet sem.
           </p>
           <div className='w-full sm:w-fit '>
-            <SiteButton className='bg-[#B6C7F5]/30 w-full hover:bg-[#B6C7F5]/30'>
-              Start for Free
-            </SiteButton>
+            <Link href={LAUNCH_PAYMENT_LINK}>
+              <SiteButton className='bg-[#B6C7F5]/30 w-full hover:bg-[#B6C7F5]/30'>
+                Start for Free
+              </SiteButton>
+            </Link>
           </div>
         </div>
         <div className='relative w-full lg:w-1/2 h-64 sm:h-80 md:h-96 rounded-xl overflow-hidden shadow-lg'>

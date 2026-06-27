@@ -4,7 +4,9 @@
 
 import SiteButton from "@/components/shared/SiteButton";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { LAUNCH_PAYMENT_LINK } from "@/lib/stripe/stripePaymentLinks";
 
 const PortfolioShowcase = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -74,9 +76,11 @@ const PortfolioShowcase = () => {
                 </p>
 
                 <div className='w-full lg:w-fit'>
-                  <SiteButton className='w-full bg-[#B6C7F5]/30 hover:bg-[#B6C7F5]/30'>
-                    Start for Free
-                  </SiteButton>
+                  <Link href={LAUNCH_PAYMENT_LINK}>
+                    <SiteButton className='w-full bg-[#B6C7F5]/30 hover:bg-[#B6C7F5]/30'>
+                      Start for Free
+                    </SiteButton>
+                  </Link>
                 </div>
               </div>
             </div>

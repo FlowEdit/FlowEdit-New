@@ -2,6 +2,8 @@
 
 import SiteButton from "@/components/shared/SiteButton";
 import Image from "next/image";
+import Link from "next/link";
+import { LAUNCH_PAYMENT_LINK } from "@/lib/stripe/stripePaymentLinks";
 
 const GetStarted = () => {
   return (
@@ -22,9 +24,11 @@ const GetStarted = () => {
           </h1>
 
           <div className='w-fit'>
-            <SiteButton className='bg-[#B6C7F5]/30 hover:bg-[#B6C7F5]/30'>
-              Start for Free
-            </SiteButton>
+            <Link href={LAUNCH_PAYMENT_LINK}>
+              <SiteButton className='bg-[#B6C7F5]/30 hover:bg-[#B6C7F5]/30'>
+                Start for Free
+              </SiteButton>
+            </Link>
           </div>
         </div>
       </div>

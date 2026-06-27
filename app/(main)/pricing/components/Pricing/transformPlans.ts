@@ -17,11 +17,6 @@ export const staticPlanData: Plan[] = [
       semiannual: 64,
       annual: 51,
     },
-    stripePriceIds: {
-      monthly: "",
-      semiannual: "",
-      annual: "",
-    },
     features: [
       { text: "Modern Motion Graphics", type: "check" },
       { text: "Professional Color Grading", type: "check" },
@@ -48,11 +43,6 @@ export const staticPlanData: Plan[] = [
       monthly: 112,
       semiannual: 92,
       annual: 73,
-    },
-    stripePriceIds: {
-      monthly: "",
-      semiannual: "",
-      annual: "",
     },
     glow: true,
     isPopular: true,
@@ -82,11 +72,6 @@ export const staticPlanData: Plan[] = [
       monthly: 158,
       semiannual: 129,
       annual: 102,
-    },
-    stripePriceIds: {
-      monthly: "",
-      semiannual: "",
-      annual: "",
     },
     features: [
       { text: "Modern Motion Graphics", type: "check" },

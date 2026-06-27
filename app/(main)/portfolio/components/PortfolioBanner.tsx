@@ -2,6 +2,8 @@
 
 import SiteButton from "@/components/shared/SiteButton";
 import Image from "next/image";
+import Link from "next/link";
+import { LAUNCH_PAYMENT_LINK } from "@/lib/stripe/stripePaymentLinks";
 
 // app/components/PortfolioSection.jsx
 // or pages/components/PortfolioSection.jsx
@@ -102,9 +104,11 @@ export default function PortfolioBanner() {
         </p>
 
         <div className='w-full  lg:flex justify-center items-center mx-auto mb-[128px]'>
-          <SiteButton className='bg-[#B6C7F5]/30 w-full hover:bg-[#B6C7F5]/30'>
-            Start for Free
-          </SiteButton>
+          <Link href={LAUNCH_PAYMENT_LINK}>
+            <SiteButton className='bg-[#B6C7F5]/30 w-full hover:bg-[#B6C7F5]/30'>
+              Start for Free
+            </SiteButton>
+          </Link>
         </div>
 
         {/* Cards */}

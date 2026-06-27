@@ -12,8 +12,9 @@ const footerMenu = [
       { label: "Product", to: "#t" },
       { label: "Pricing", to: "/pricing" },
       { label: "Terms & Conditions", to: "/terms-and-conditions" },
-      { label: "Changelog", to: "#" },
-      { label: "Sign in", to: "#" },
+      { label: "Privacy Policy", to: "/privacy" },
+      { label: "Billing & Cancellation Policy", to: "/billing-and-cancellation" },
+      { label: "Contact", to: "/contact" },
     ],
   },
   {
@@ -54,11 +55,11 @@ const Footer: FC = () => {
 
             <p className='text-sm text-black/70'>
               © 2025.{" "}
-              <Link href='#' className='hover:underline'>
+              <Link href='/privacy' className='hover:underline'>
                 PRIVACY
               </Link>{" "}
               ·{" "}
-              <Link href='#' className='hover:underline'>
+              <Link href='/terms-and-conditions' className='hover:underline'>
                 TERMS
               </Link>
             </p>

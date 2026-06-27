@@ -5,11 +5,13 @@
 import PageHeaderButton from "@/components/shared/PageHeaderButton";
 import SiteButton from "@/components/shared/SiteButton";
 import gsap from "gsap";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { IoMdStar, IoMdStarHalf } from "react-icons/io";
 import SplitType from "split-type";
 import Image from "next/image";
+import { LAUNCH_PAYMENT_LINK } from "@/lib/stripe/stripePaymentLinks";
 
 const Banner = () => {
   const pathname = usePathname();
@@ -132,9 +134,11 @@ const Banner = () => {
                 </p>
 
                 <div className='w-full sm:w-fit shadow-2xl'>
-                  <SiteButton className='bg-[#B6C7F5]/30 w-full hover:bg-[#B6C7F5]/30'>
-                    Start for Free
-                  </SiteButton>
+                  <Link href={LAUNCH_PAYMENT_LINK}>
+                    <SiteButton className='bg-[#B6C7F5]/30 w-full hover:bg-[#B6C7F5]/30'>
+                      Start for Free
+                    </SiteButton>
+                  </Link>
                 </div>
 
                 <p className='hero-bottom-text text-white max-w-60 sm:max-w-sm md:max-w-md text-xs sm:text-sm md:text-base leading-[150%] '>

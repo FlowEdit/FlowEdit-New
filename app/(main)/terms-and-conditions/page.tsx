@@ -21,9 +21,10 @@ export default function TermsAndConditionsPage() {
             <p className='text-base leading-[170%] text-black/80'>
               These Terms & Conditions (&quot;Agreement&quot;) govern your use of the
               subscription-based video editing and production services
-              (&quot;Services&quot;) provided by FlowEdit. By subscribing to or using the
-              Services, you agree to be bound by this Agreement. If you do not
-              agree to these terms, do not use the Services.
+              (&quot;Services&quot;) provided by FlowEdit LLC (&quot;FlowEdit&quot;). By
+              subscribing to or using the Services, you agree to be bound by this
+              Agreement. If you do not agree to these terms, do not use the
+              Services.
             </p>
 
             <div className='space-y-7'>

@@ -4,7 +4,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { BsCurrencyDollar } from "react-icons/bs";
-import { toast } from "sonner";
+import Link from "next/link";
 import DiamondIcon from "@/components/shared/DiamondCheckIcon";
 import { useAppSelector } from "@/redux/hooks";
 
@@ -12,7 +12,7 @@ import { useGetSubcriptionQuery } from "@/redux/features/payment/subscription";
 import { transformBackendToPlans, mockBackendResponse } from "./transformPlans";
 import { Plan, PeriodType, PlanType } from "./subscription";
 import PriceUpdateModal from "./PricingUpdateModal";
-import { startCheckout } from "@/lib/stripe/checkoutClient";
+import { getStripePaymentLink } from "@/lib/stripe/stripePaymentLinks";
 
 export default function PricingCard() {
     const { data: apiData, isLoading: isLoadingPlans, error } = useGetSubcriptionQuery({});
@@ -71,18 +71,6 @@ export default function PricingCard() {
                 [period]: newPrice,
             },
         }));
-    };
-
-    const handleSubscribe = async (planTitle: PlanType) => {
-        try {
-            await startCheckout(planTitle, planType);
-        } catch (error) {
-            const message =
-                error instanceof Error
-                    ? error.message
-                    : "Unable to start checkout. Please try again.";
-            toast.error(message);
-        }
     };
 
     const getButtonText = (type: PeriodType) => {
@@ -207,15 +195,15 @@ export default function PricingCard() {
                                     ))}
                                 </ul>
 
-                                <button
-                                    onClick={() => handleSubscribe(plan.title)}
-                                    className={`w-full mt-9 py-3.5 rounded-xl font-medium transition-all duration-200 transform-gpu hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98] active:translate-y-0 ${plan.glow
+                                <Link
+                                    href={getStripePaymentLink(plan.title, planType)}
+                                    className={`block w-full mt-9 py-3.5 rounded-xl font-medium text-center transition-all duration-200 transform-gpu hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98] active:translate-y-0 ${plan.glow
                                             ? "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg"
                                             : "bg-blue-600 hover:bg-blue-700 text-white"
                                         } disabled:opacity-60 disabled:cursor-not-allowed`}
                                 >
                                     {getButtonText(planType)}
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     );

@@ -9,8 +9,8 @@ import ComparePlansModal from "../UpdateComparism";
 import Image from "next/image";
 import { comparisonRows, planHeaders } from "./comparisonData";
 import { Button } from "@/components/ui/button";
-import { startCheckout } from "@/lib/stripe/checkoutClient";
-import { toast } from "sonner";
+import Link from "next/link";
+import { getStripePaymentLink } from "@/lib/stripe/stripePaymentLinks";
 
 import { PlanType as BillingPeriod } from "@/components/shared/ToggleSwitch";
 
@@ -69,18 +69,6 @@ export default function ComparePlans({ currentPeriod = "monthly" }: Props) {
   const primaryCtaClass =
     "h-auto bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg px-4 py-3.5 rounded-xl font-medium transition-all duration-200";
 
-  const handleStartNow = async (planName: string) => {
-    try {
-      await startCheckout(planName, currentPeriod);
-    } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : "Unable to start checkout. Please try again.";
-      toast.error(message);
-    }
-  };
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -138,11 +126,10 @@ export default function ComparePlans({ currentPeriod = "monthly" }: Props) {
                     className="flex flex-col items-center justify-center rounded-t-2xl bg-white/30 px-2 py-6 text-center"
                   >
                     <h3 className="mb-4 text-2xl font-bold text-gray-800">{plan.name}</h3>
-                    <Button
-                      className={primaryCtaClass}
-                      onClick={() => handleStartNow(plan.name)}
-                    >
-                      Start Now
+                    <Button asChild className={primaryCtaClass}>
+                      <Link href={getStripePaymentLink(plan.name, currentPeriod)}>
+                        Start Now
+                      </Link>
                     </Button>
                   </div>
                 ))}
