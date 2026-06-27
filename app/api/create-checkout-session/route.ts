@@ -25,8 +25,14 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ url: session.url });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error creating checkout session", err);
-    return NextResponse.json({ error: err.message || "unknown" }, { status: 500 });
+
+    const message =
+      typeof err === "object" && err !== null && "message" in err
+        ? String((err as { message: unknown }).message)
+        : "unknown";
+
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

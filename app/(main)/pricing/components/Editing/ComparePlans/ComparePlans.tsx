@@ -11,6 +11,7 @@ import { comparisonRows, planHeaders } from "./comparisonData";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { startCheckout } from "@/lib/stripe/checkoutClient";
+import { PeriodKey } from "@/lib/stripe/prices";
 
 import { PlanType as BillingPeriod } from "@/components/shared/ToggleSwitch";
 
@@ -41,7 +42,7 @@ interface Props {
 export default function ComparePlans({ currentPeriod = "monthly" }: Props) {
   const { data, isLoading } = useGetPlansQuery(undefined);
   const router = useRouter();
-  const { role, token, isTrial, isSubscribed } = useAppSelector(
+  const { role, token, isSubscribed } = useAppSelector(
     (state) => state.auth
   );
   const isAdmin = role === "ADMIN";
@@ -84,7 +85,7 @@ export default function ComparePlans({ currentPeriod = "monthly" }: Props) {
     }
 
     // Start Stripe Checkout using centralized helper
-    await startCheckout(planName, currentPeriod as any);
+    await startCheckout(planName, currentPeriod as PeriodKey);
   };
 
   if (isLoading) {

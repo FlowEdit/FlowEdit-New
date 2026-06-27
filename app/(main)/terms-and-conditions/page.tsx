@@ -19,9 +19,9 @@ export default function TermsAndConditionsPage() {
 
           <div className='space-y-6 rounded-2xl bg-white/50 p-6 shadow-[0_10px_10px_rgba(0,0,0,0.08),0_4px_4px_rgba(0,0,0,0.04)] backdrop-blur-[20px] lg:p-8'>
             <p className='text-base leading-[170%] text-black/80'>
-              These Terms & Conditions ("Agreement") govern your use of the
+              These Terms & Conditions (&quot;Agreement&quot;) govern your use of the
               subscription-based video editing and production services
-              ("Services") provided by FlowEdit. By subscribing to or using the
+              (&quot;Services&quot;) provided by FlowEdit. By subscribing to or using the
               Services, you agree to be bound by this Agreement. If you do not
               agree to these terms, do not use the Services.
             </p>
@@ -89,7 +89,7 @@ export default function TermsAndConditionsPage() {
 
               <section className='space-y-3'>
                 <h2 className='text-2xl font-semibold text-black'>9. Limitation of Liability</h2>
-                <p className='text-black/80'>9.1 Services are provided "as is" and "as available."</p>
+                <p className='text-black/80'>9.1 Services are provided &quot;as is&quot; and &quot;as available.&quot;</p>
                 <p className='text-black/80'>9.2 FlowEdit makes no warranties regarding uninterrupted service or error-free operation.</p>
                 <p className='text-black/80'>9.3 To the fullest extent permitted by law, FlowEdit shall not be liable for indirect, incidental, consequential, or special damages, including lost profits, lost business opportunities, or loss of data.</p>
               </section>

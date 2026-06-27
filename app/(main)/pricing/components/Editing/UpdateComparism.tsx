@@ -8,7 +8,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { PlanType } from "./ComparePlans/ComparePlans";
 import { toast } from "sonner";
 import { useUpdatePlanMutation } from "@/redux/features/plansApi";
@@ -22,16 +22,17 @@ export default function ComparePlansModal({ plans }: Props) {
     const [localPlans, setLocalPlans] = useState<PlanType[]>(plans);
     const [updatePlan, { isLoading }] = useUpdatePlanMutation();
 
-    useEffect(() => {
-        if (open) {
+    const handleOpenChange = (nextOpen: boolean) => {
+        if (nextOpen) {
             setLocalPlans(plans);
         }
-    }, [open, plans]);
+        setOpen(nextOpen);
+    };
 
-    const handleChange = (
+    const handleChange = <K extends keyof PlanType>(
         index: number,
-        field: keyof PlanType,
-        value: any
+        field: K,
+        value: PlanType[K]
     ) => {
         const updated = [...localPlans];
         updated[index] = { ...updated[index], [field]: value };
@@ -40,7 +41,6 @@ export default function ComparePlansModal({ plans }: Props) {
 
     const handleSave = async () => {
 
-        console.log("Id", )
         try {
             for (const plan of localPlans) {
                 await updatePlan({
@@ -55,7 +55,7 @@ export default function ComparePlansModal({ plans }: Props) {
 
             toast.success("Plans updated successfully");
             setOpen(false);
-        } catch (error) {
+        } catch {
             toast.error("Update failed");
         }
     };
@@ -67,7 +67,7 @@ export default function ComparePlansModal({ plans }: Props) {
     ];
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogTrigger asChild>
                 <Button>Edit Table</Button>
             </DialogTrigger>

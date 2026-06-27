@@ -1,13 +1,12 @@
 /** @format */
 "use client";
 
-import { Eye, EyeOff, Router } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSignupMutation } from "@/redux/features/auth/authApi";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { SerializedError } from "@reduxjs/toolkit";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 

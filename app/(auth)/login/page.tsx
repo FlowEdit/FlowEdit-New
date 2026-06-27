@@ -17,6 +17,15 @@ type LoginFormData = {
   password: string;
 };
 
+type LoginResponse = {
+  type?: "ADMIN" | "USER" | string;
+  authorization?: {
+    access_token?: string;
+  };
+  isTrial?: boolean;
+  isSubscribed?: boolean;
+};
+
 export default function LoginPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -44,15 +53,16 @@ export default function LoginPage() {
       // console.log('===================================='); 
 
       // Ensure role is either USER or ADMIN
-      const role = result.type === "ADMIN" ? "ADMIN" : "USER";
+      const loginResult = result as LoginResponse;
+      const role = loginResult.type === "ADMIN" ? "ADMIN" : "USER";
 
       // Save auth state in Redux and Cookies
       dispatch(
         setCredentials({
           token: result.authorization?.access_token ?? null,
           role,
-          isTrial: (result as any).isTrial ?? false,
-          isSubscribed: (result as any).isSubscribed ?? false,
+          isTrial: loginResult.isTrial ?? false,
+          isSubscribed: loginResult.isSubscribed ?? false,
         })
       );
 

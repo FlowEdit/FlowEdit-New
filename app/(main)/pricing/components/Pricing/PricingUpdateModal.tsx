@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useUpdateSubPlanMutation } from "@/redux/features/payment/subscription";
-import { Plan, PeriodType, PlanUpdateModalProps } from "./subscription";
+import { PeriodType, PlanUpdateModalProps } from "./subscription";
 
 export default function PriceUpdateModal({
     plan,
@@ -57,9 +57,20 @@ export default function PriceUpdateModal({
             onSave(plan, currentPeriod, price);
             toast.success(`${plan.title} ${currentPeriod} price updated to $${price}!`);
             onClose();
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error("Failed to update plan:", err);
-            toast.error(err?.data?.message || "Failed to update plan");
+
+            const message =
+                typeof err === "object" &&
+                err !== null &&
+                "data" in err &&
+                typeof (err as { data?: unknown }).data === "object" &&
+                (err as { data?: { message?: unknown } }).data?.message &&
+                typeof (err as { data?: { message?: unknown } }).data?.message === "string"
+                    ? (err as { data?: { message?: string } }).data?.message
+                    : "Failed to update plan";
+
+            toast.error(message);
         } finally {
             setIsSaving(false);
         }

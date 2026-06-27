@@ -7,7 +7,7 @@ interface AuthState {
   isTrial: boolean;
   isSubscribed?: boolean;
   trialStartDate?: string;
-  subscription?: any;
+  subscription?: Record<string, unknown>;
 }
 
 interface SetCredentialsPayload {
@@ -16,7 +16,7 @@ interface SetCredentialsPayload {
   isTrial?: boolean;
   isSubscribed?: boolean;
   trialStartDate?: string;
-  subscription?: any;
+  subscription?: Record<string, unknown>;
 }
 
 // const initialState: AuthState = {

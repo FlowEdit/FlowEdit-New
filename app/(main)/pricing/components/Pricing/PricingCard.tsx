@@ -1,7 +1,7 @@
 // components/PricingCard.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { BsCurrencyDollar } from "react-icons/bs";
@@ -21,7 +21,7 @@ export default function PricingCard() {
     const [planType, setPlanType] = useState<PeriodType>("monthly");
     const [isOpen, setIsOpen] = useState(false);
     const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
-    const [plans, setPlans] = useState<Plan[]>([]);
+    const [editedPrices, setEditedPrices] = useState<Record<number, Partial<Record<PeriodType, number>>>>({});
 
     const role = useAppSelector((state) => state.auth.role);
     const isAdmin = role === "ADMIN";
@@ -30,17 +30,33 @@ export default function PricingCard() {
     const [createTrial, { isLoading: isTrialLoading }] = useCreateTrileMutation();
     const router = useRouter();
 
-    // Transform backend data when it arrives
-    useEffect(() => {
+    const basePlans = useMemo<Plan[]>(() => {
         if (apiData) {
-            const transformed = transformBackendToPlans(apiData);
-            setPlans(transformed);
-        } else if (error) {
-            console.error("Failed to fetch plans:", error);
-            // Fallback to mock data if API fails
-            setPlans(transformBackendToPlans(mockBackendResponse));
+            return transformBackendToPlans(apiData);
         }
+
+        if (error) {
+            console.error("Failed to fetch plans:", error);
+            return transformBackendToPlans(mockBackendResponse);
+        }
+
+        return [];
     }, [apiData, error]);
+
+    const plans = useMemo<Plan[]>(() => {
+        return basePlans.map((plan) => {
+            const overrides = editedPrices[plan.id];
+            if (!overrides) return plan;
+
+            return {
+                ...plan,
+                prices: {
+                    ...plan.prices,
+                    ...overrides,
+                },
+            };
+        });
+    }, [basePlans, editedPrices]);
 
     // For development/testing without API
     // useEffect(() => {
@@ -54,19 +70,13 @@ export default function PricingCard() {
 
     
     const handleSavePlan = (updatedPlan: Plan, period: PeriodType, newPrice: number) => {
-        setPlans((prev) =>
-            prev.map((p) =>
-                p.id === updatedPlan.id
-                    ? {
-                        ...p,
-                        prices: {
-                            ...p.prices,
-                            [period]: newPrice,
-                        },
-                    }
-                    : p
-            )
-        );
+        setEditedPrices((prev) => ({
+            ...prev,
+            [updatedPlan.id]: {
+                ...prev[updatedPlan.id],
+                [period]: newPrice,
+            },
+        }));
     };
 
     const handleSubscribe = async (planTitle: PlanType) => {
@@ -114,7 +124,7 @@ export default function PricingCard() {
         annual: "Start 21-Day Free Trial",
     };
 
-    const getButtonText = (planTitle: PlanType) => {
+    const getButtonText = () => {
         if (!isTrial && !isSubscribed) return trialTextByPeriod[planType];
         if (isTrial && !isSubscribed) return `Subscribe Now `;
         if (isSubscribed) return "Go to Dashboard";
@@ -251,7 +261,7 @@ export default function PricingCard() {
                                             Processing...
                                         </span>
                                     ) : (
-                                        getButtonText(plan.title)
+                                        getButtonText()
                                     )}
                                 </button>
                             </div>
