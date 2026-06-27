@@ -1,5 +1,5 @@
 // types/subscription.ts
-export type PlanType = "CORE" | "GROWTH" | "PLUS";
+export type PlanType = "CORE" | "GROWTH" | "PLUS" | "Creator" | "Studio";
 export type IntervalType = "MONTHLY" | "SEMIANNUAL" | "ANNUAL";
 export type PeriodType = "monthly" | "semiannual" | "annual";
 export type FeatureType = "check" | "minus";
@@ -25,6 +25,11 @@ export interface Plan {
   title: PlanType;
   prices: Record<PeriodType, number>;
   desc: Record<PeriodType, number>;
+  stripePriceIds: {
+    monthly: string;
+    semiannual: string;
+    annual: string;
+  };
   features: { text: string; type: FeatureType }[];
   glow?: boolean;
   isPopular?: boolean;

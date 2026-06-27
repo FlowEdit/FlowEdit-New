@@ -5,6 +5,7 @@ import ComparePlans from "./components/Editing/ComparePlans/ComparePlans";
 import { PlanType } from "@/components/shared/ToggleSwitch";
 import PriceBanner from "./components/PriceCarosel/PriceBanner";
 import PricingSection from "@/app/(dashboard)/dashboard/page";
+import PricingFaq from "./components/PricingFaq";
 
 const PricingPage = () => {
   const [planType, setPlanType] = useState<PlanType>("monthly");
@@ -13,7 +14,8 @@ const PricingPage = () => {
     <div className='w-full relative lg:pb-24 overflow-hidden'>
       <div className='relative z-10 flex flex-col space-y-12 lg:space-y-0'>
         <PriceBanner value={planType} onToggleChange={setPlanType} />
-        <ComparePlans />
+        <ComparePlans currentPeriod={planType} />
+        <PricingFaq />
       </div>
     </div>
   );

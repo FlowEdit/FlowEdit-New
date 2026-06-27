@@ -19,7 +19,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "FlowEdit | Video Editing Services",
-  description: "Professional video editing subscriptions for creators, businesses, and brands. Upload your footage, collaborate with a dedicated editing team, and receive high-quality videos with fast turnaround times.",
+  description:
+    "Professional video editing for YouTube, TikTok, Instagram, and podcast creators. Fast turnaround, dedicated editors, and content that helps you grow.",
 };
 
 export default function RootLayout({

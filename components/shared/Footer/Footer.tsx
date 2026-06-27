@@ -11,6 +11,7 @@ const footerMenu = [
     links: [
       { label: "Product", to: "#t" },
       { label: "Pricing", to: "/pricing" },
+      { label: "Terms & Conditions", to: "/terms-and-conditions" },
       { label: "Changelog", to: "#" },
       { label: "Sign in", to: "#" },
     ],

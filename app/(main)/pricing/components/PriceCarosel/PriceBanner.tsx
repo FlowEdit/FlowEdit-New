@@ -70,9 +70,7 @@ const PriceBanner = ({
         </h1>
 
         <p className='text-base lg:text-xl leading-[150%] text-white max-w-2xl text-center'>
-          As we grow our library of UI components, we’re introducing a
-          limited-time pricing that’s not only 50% off but also significantly
-          cheaper than what’s on the market
+          Choose the plan that fits your content goals. Every FlowEdit service option includes a dedicated editing team, fast turnaround, unlimited revisions, and consistent professional quality—helping you publish more videos while spending less time editing.
         </p>
 
 <PricingCard/>

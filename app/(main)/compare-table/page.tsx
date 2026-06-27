@@ -10,6 +10,7 @@ const plans = [
   { name: "Core", price: "$79", subtitle: "Per video" },
   { name: "Creator", price: "$112", subtitle: "Per video", highlight: true },
   { name: "Studio", price: "$158", subtitle: "Per video" },
+  { name: "Production", price: "Contact", subtitle: "Per video" },
 ];
 
 const rows = [
@@ -18,24 +19,44 @@ const rows = [
     type: "price",
   },
   {
-    label: "Unlimited Videos",
-    values: [false, true, true, true],
-  },
-  {
     label: "Professional Editing",
-    values: [true, true, true, true],
+    values: [true, true, true, true, true],
   },
   {
-    label: "Branding Included",
-    values: [true, true, true, true],
+    label: "Branding Integration",
+    values: [true, true, true, true, true],
   },
   {
-    label: "Custom Thumbnails",
-    values: [false, true, true, true],
+    label: "Unlimited Revisions",
+    values: [false, true, true, true, true],
+  },
+  {
+    label: "Thumbnail Design",
+    values: [false, false, true, true, true],
+  },
+  {
+    label: "Priority Delivery",
+    values: [false, false, true, true, true],
   },
   {
     label: "SEO Optimization",
-    values: ["21 days", "21 days", "21 days", "21 days"],
+    values: [false, false, false, true, true],
+  },
+  {
+    label: "Auto Posting",
+    values: [false, false, false, true, true],
+  },
+  {
+    label: "Creative Lead",
+    values: [false, false, false, true, true],
+  },
+  {
+    label: "Videography",
+    values: [false, false, false, false, true],
+  },
+  {
+    label: "Free Trial",
+    values: [false, "21 days", "21 days", "21 days", "7 days"],
     last: true,
   },
 ];

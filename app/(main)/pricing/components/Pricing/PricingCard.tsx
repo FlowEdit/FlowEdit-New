@@ -108,8 +108,14 @@ export default function PricingCard() {
         }
     };
 
+    const trialTextByPeriod: Record<PeriodType, string> = {
+        monthly: "Start 7-Day Free Trial",
+        semiannual: "Start 14-Day Free Trial",
+        annual: "Start 21-Day Free Trial",
+    };
+
     const getButtonText = (planTitle: PlanType) => {
-        if (!isTrial && !isSubscribed) return `Start 14 Days Free Trial`;
+        if (!isTrial && !isSubscribed) return trialTextByPeriod[planType];
         if (isTrial && !isSubscribed) return `Subscribe Now `;
         if (isSubscribed) return "Go to Dashboard";
         return "Select Plan";
@@ -117,10 +123,15 @@ export default function PricingCard() {
 
     const getDiscountPercent = (planTitle: PlanType, type: PeriodType) => {
         if (planTitle === "CORE") return 0;
-        if (type === "semiannual") return 15;
-        if (type === "annual") return 20;
+        if (type === "semiannual") return 18;
+        if (type === "annual") return 35;
         return 0;
     };
+
+    const formatPlanTitle = (title: PlanType) =>
+        title === "CORE" ? "Core" : title;
+
+    const formatAmount = (amount: number) => amount.toLocaleString("en-US");
 
     if (isLoadingPlans) {
         return (
@@ -159,7 +170,7 @@ export default function PricingCard() {
                     const price = plan.prices[planType];
                     const desc = plan.desc[planType];
                     const discountPercent = getDiscountPercent(plan.title, planType);
-                    const showDiscount = plan.title !== "CORE" && planType !== "monthly" && discountPercent > 0;
+                    const showDiscount = planType !== "monthly" && discountPercent > 0;
 
                     return (
                         <div
@@ -203,18 +214,18 @@ export default function PricingCard() {
                                     </button>
                                 )}
 
-                                <h2 className="text-2xl text-gray-800 font-bold mb-4">{plan.title}</h2>
+                                <h2 className="text-2xl text-gray-800 font-bold mb-4">{formatPlanTitle(plan.title)}</h2>
 
                                 <div className="flex justify-center items-start gap-1 mt-2">
                                     <BsCurrencyDollar className="text-3xl mt-2 text-gray-600" />
                                     <div>
-                                        <p className="text-5xl font-extrabold text-gray-900">{price}</p>
+                                        <p className="text-5xl font-extrabold text-gray-900">{formatAmount(price)}</p>
                                         <sup className="text-sm text-gray-500 capitalize">per video</sup>
                                     </div>
                                 </div>
 
                                 <p className="text-sm text-gray-600 mt-2 bg-gray-50 py-2 px-4 rounded-full inline-block">
-                                    ${desc} <span className="capitalize">per month</span>
+                                    ${formatAmount(desc)} <span className="capitalize">{planType} total</span>
                                 </p>
 
                                 <ul className="space-y-4 mt-8 text-left">
