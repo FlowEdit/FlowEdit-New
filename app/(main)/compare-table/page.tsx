@@ -6,18 +6,40 @@ import Image from "next/image";
 import { Check } from "lucide-react";
 
 const plans = [
-  { name: "Launch", price: "$0", subtitle: "Per video" },
-  { name: "Core", price: "$79", subtitle: "Per video" },
-  { name: "Creator", price: "$112", subtitle: "Per video", highlight: true },
-  { name: "Studio", price: "$158", subtitle: "Per video" },
-  { name: "Production", price: "Contact", subtitle: "Per video" },
+  {
+    name: "Launch",
+    priceLabel: "Completely FREE",
+    priceFootnote: "1",
+    priceTone: "launch",
+  },
+  {
+    name: "Core",
+    pricePrefix: "Starting at",
+    priceLabel: "$384/mo",
+    priceFootnote: "3",
+  },
+  {
+    name: "Creator",
+    pricePrefix: "Starting at",
+    priceLabel: "$546/mo",
+    priceFootnote: "3",
+    highlight: true,
+  },
+  {
+    name: "Studio",
+    pricePrefix: "Starting at",
+    priceLabel: "$769/mo",
+    priceFootnote: "3",
+  },
+  {
+    name: "Production",
+    pricePrefix: "Starting at",
+    priceLabel: "$875/mo",
+    priceFootnote: "3",
+  },
 ];
 
 const rows = [
-  {
-    label: "Per video",
-    type: "price",
-  },
   {
     label: "Professional Editing",
     values: [true, true, true, true, true],
@@ -52,11 +74,17 @@ const rows = [
   },
   {
     label: "Videography",
+    labelFootnote: "2",
     values: [false, false, false, false, true],
   },
   {
+    label: "FlowEdit Watermark",
+    labelFootnote: "1",
+    values: [true, false, false, false, false],
+  },
+  {
     label: "Free Trial",
-    values: [false, "21 days", "21 days", "21 days", "7 days"],
+    values: ["Unlimited", "21 days", "21 days", "21 days", "7 days"],
     last: true,
   },
 ];
@@ -100,8 +128,35 @@ export default function ComparePlans() {
                 {plans.map((p) => (
                   <div
                     key={p.name}
-                    className={`py-6 text-center font-medium rounded-t-2xl bg-white/30`}>
-                    {p.name}
+                    className='flex min-h-[104px] flex-col items-center justify-center rounded-t-2xl bg-white/30 px-3 py-4 text-center'>
+                    <p className='text-[17px] font-semibold leading-tight text-black/90 whitespace-nowrap'>
+                      {p.name}
+                    </p>
+
+                    {p.priceTone === "launch" ? (
+                      <p className='mt-1 text-[18px] font-extrabold leading-tight whitespace-nowrap text-[#4069E4]'>
+                        {p.priceLabel}
+                        {p.priceFootnote && (
+                          <sup className='ml-0.5 align-super text-[10px] leading-none'>
+                            {p.priceFootnote}
+                          </sup>
+                        )}
+                      </p>
+                    ) : (
+                      <div className='mt-1 flex flex-col items-center gap-0.5'>
+                        <span className='text-[11px] font-medium uppercase tracking-[0.08em] text-black/45 whitespace-nowrap'>
+                          {p.pricePrefix}
+                        </span>
+                        <span className='text-[17px] font-bold leading-tight whitespace-nowrap text-[#4069E4]'>
+                          {p.priceLabel}
+                          {p.priceFootnote && (
+                            <sup className='ml-0.5 align-super text-[10px] leading-none'>
+                              {p.priceFootnote}
+                            </sup>
+                          )}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -121,35 +176,17 @@ export default function ComparePlans() {
                         : "text-black font-semibold"
                       }`}>
                       {row.label}
+                      {row.labelFootnote && (
+                        <sup className='ml-0.5 align-super text-[10px] leading-none'>
+                          {row.labelFootnote}
+                        </sup>
+                      )}
                     </p>
                   </div>
 
                   {/* Right Plan Cells */}
                   {plans.map((plan, colIndex) => {
                     const highlight = plan.highlight;
-
-                    // ✅ PRICE ROW
-                    if (row.type === "price") {
-                      return (
-                        <div
-                          key={plan.name}
-                          className={`py-6 px-3 flex items-center justify-center bg-white/10  relative overflow-hidden`}>
-                          {/* Highlight blur for Creator */}
-                          {highlight && (
-                            <div className='absolute inset-0 bg-gradient-to-b from-purple-400/30 via-white/10 to-pink-400/30 blur-2xl' />
-                          )}
-
-                          <div className='relative text-center'>
-                            <p className='text-base md:text-lg lg:text-3xl font-normal lg:font-semibold'>
-                              {plan.price}
-                            </p>
-                            <span className='text-sm text-gray-500'>
-                              {plan.subtitle}
-                            </span>
-                          </div>
-                        </div>
-                      );
-                    }
 
                     // ✅ NORMAL ROW VALUES
                     const value = row.values?.[colIndex];

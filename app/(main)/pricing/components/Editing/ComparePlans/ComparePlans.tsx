@@ -65,7 +65,7 @@ export default function ComparePlans({ currentPeriod = "monthly" }: Props) {
   };
 
   const tableColumns =
-    "minmax(220px, 1.4fr) repeat(5, minmax(120px, 1fr))";
+    "minmax(22%, 1.55fr) repeat(5, minmax(0, 1fr))";
   const primaryCtaClass =
     "h-auto bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg px-4 py-3.5 rounded-xl font-medium transition-all duration-200";
 
@@ -106,13 +106,13 @@ export default function ComparePlans({ currentPeriod = "monthly" }: Props) {
           best meets your needs.
         </p>
 
-        <div className="container mx-auto relative rounded-3xl p-4 lg:p-16">
+        <div className="relative mx-auto w-[min(95vw,1600px)] rounded-3xl px-4 py-4 lg:px-8 lg:py-16">
           <div className="flex justify-end mb-6">
             {isAdmin && <ComparePlansModal plans={plans} />}
           </div>
 
           <div className="overflow-x-auto">
-            <div className="min-w-[900px]">
+            <div className="w-full">
               <div
                 className="sticky top-0 z-20 grid gap-[15px] border-b border-white/40 bg-[#89cceb]/25 backdrop-blur"
                 style={{
@@ -123,9 +123,33 @@ export default function ComparePlans({ currentPeriod = "monthly" }: Props) {
                 {planHeaders.map((plan) => (
                   <div
                     key={plan.name}
-                    className="flex flex-col items-center justify-center rounded-t-2xl bg-white/30 px-2 py-6 text-center"
+                    className="flex flex-col items-center rounded-t-2xl bg-white/30 px-2 py-[7px] text-center"
                   >
-                    <h3 className="mb-4 text-2xl font-bold text-gray-800">{plan.name}</h3>
+                    <h3 className="mb-3 flex h-6 max-w-full items-center justify-center truncate text-[clamp(1.125rem,1.4vw,1.375rem)] font-bold leading-6 text-gray-800">
+                      {plan.name}
+                    </h3>
+                    <div className="mb-3.5 flex max-w-full flex-col items-center justify-center text-center leading-none">
+                      <span
+                        className={`h-3 whitespace-nowrap text-[10px] font-medium leading-3 text-[#6B7280] ${
+                          plan.pricePrefix ? "" : "invisible"
+                        }`}
+                      >
+                        {plan.pricePrefix ?? "Starting at"}
+                        {plan.pricePrefixFootnote && (
+                          <sup className="ml-0.5 align-super text-[8px] leading-none">
+                            {plan.pricePrefixFootnote}
+                          </sup>
+                        )}
+                      </span>
+                      <span className="mt-0.5 max-w-full whitespace-nowrap text-[clamp(1rem,1.15vw,1.125rem)] font-bold leading-5 text-[#2563eb]">
+                        {plan.priceLabel}
+                        {plan.priceFootnote && (
+                          <sup className="ml-0.5 align-super text-[10px] leading-none">
+                            {plan.priceFootnote}
+                          </sup>
+                        )}
+                      </span>
+                    </div>
                     <Button asChild className={primaryCtaClass}>
                       <Link href={getStripePaymentLink(plan.name, currentPeriod)}>
                         Start Now
@@ -143,7 +167,14 @@ export default function ComparePlans({ currentPeriod = "monthly" }: Props) {
                     gridTemplateColumns: tableColumns,
                   }}
                 >
-                  <Cell left>{row.label}</Cell>
+                  <Cell left>
+                    {row.label}
+                    {row.labelFootnote && (
+                      <sup className="ml-0.5 align-super text-[10px] leading-none">
+                        {row.labelFootnote}
+                      </sup>
+                    )}
+                  </Cell>
                   {row.values.map((value, index) => (
                     <Cell key={`${row.label}-${index}`}>
                       {renderCell(value)}

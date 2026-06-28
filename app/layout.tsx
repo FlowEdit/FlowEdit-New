@@ -4,9 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-import Navbar from "@/components/shared/Navbar/Navbar";
-import Footer from "@/components/shared/Footer/Footer";
-import ClientWrapper from "@/components/ClientWrapper";
+import AppChrome from "@/components/layout/AppChrome";
 import StoreProviders from "../redux/StoreProviders";
 import AppInitializer from "@/redux/features/appInitilaze/Appintialize";
 import { Toaster } from "@/components/ui/sonner";
@@ -35,11 +33,8 @@ export default function RootLayout({
           {/* 🔥 Bootstrap auth + subscription once */}
           <AppInitializer />
           <HydrateAuth/>
-          <Navbar />
-
-          <ClientWrapper>{children}</ClientWrapper>
+          <AppChrome>{children}</AppChrome>
           <Toaster position="top-center" />
-          <Footer />
         </StoreProviders>
       </body>
     </html>

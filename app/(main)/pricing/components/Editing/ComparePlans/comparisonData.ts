@@ -2,16 +2,37 @@ export type CompareCellValue = boolean | string;
 
 export interface CompareRow {
   label: string;
+  labelFootnote?: string;
   values: CompareCellValue[];
   last?: boolean;
 }
 
 export const planHeaders = [
-  { name: "Launch" },
-  { name: "Core" },
-  { name: "Creator" },
-  { name: "Studio" },
-  { name: "Production" },
+  { name: "Launch", priceLabel: "Completely FREE", priceFootnote: "1" },
+  {
+    name: "Core",
+    pricePrefix: "Starting at",
+    priceLabel: "$384/mo",
+    priceFootnote: "3",
+  },
+  {
+    name: "Creator",
+    pricePrefix: "Starting at",
+    priceLabel: "$546/mo",
+    priceFootnote: "3",
+  },
+  {
+    name: "Studio",
+    pricePrefix: "Starting at",
+    priceLabel: "$769/mo",
+    priceFootnote: "3",
+  },
+  {
+    name: "Production",
+    pricePrefix: "Starting at",
+    priceLabel: "$875/mo",
+    priceFootnote: "3",
+  },
 ];
 
 export const comparisonRows: CompareRow[] = [
@@ -57,11 +78,17 @@ export const comparisonRows: CompareRow[] = [
   },
   {
     label: "Videography",
+    labelFootnote: "2",
     values: [false, false, false, false, true],
   },
   {
+    label: "FlowEdit Watermark",
+    labelFootnote: "1",
+    values: [true, false, false, false, false],
+  },
+  {
     label: "Free Trial",
-    values: [false, "21 Days", "21 Days", "21 Days", "7 Days"],
+    values: ["Unlimited", "21 Days", "21 Days", "21 Days", "7 Days"],
     last: true,
   },
 ];

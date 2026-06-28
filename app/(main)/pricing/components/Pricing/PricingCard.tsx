@@ -90,6 +90,8 @@ export default function PricingCard() {
         title === "CORE" ? "Core" : title;
 
     const formatAmount = (amount: number) => amount.toLocaleString("en-US");
+    const getStartingMonthlyPrice = (plan: Plan) =>
+        Math.round(plan.desc.annual / 12);
 
     if (isLoadingPlans) {
         return (
@@ -174,6 +176,16 @@ export default function PricingCard() {
 
                                 <h2 className="text-2xl text-gray-800 font-bold mb-4">{formatPlanTitle(plan.title)}</h2>
 
+                                <p className="text-sm font-medium text-gray-600">
+                                    Starting at{" "}
+                                    <span className="font-bold text-blue-600">
+                                        ${formatAmount(getStartingMonthlyPrice(plan))}/mo
+                                        <sup className="ml-0.5 align-super text-[10px] leading-none">
+                                            3
+                                        </sup>
+                                    </span>
+                                </p>
+
                                 <div className="flex justify-center items-start gap-1 mt-2">
                                     <BsCurrencyDollar className="text-3xl mt-2 text-gray-600" />
                                     <div>
@@ -190,7 +202,14 @@ export default function PricingCard() {
                                     {plan.features.map((feature, index) => (
                                         <li key={index} className="flex gap-3 items-start">
                                             <DiamondIcon type={feature.type} />
-                                            <span className="text-sm text-gray-700">{feature.text}</span>
+                                            <span className="text-sm text-gray-700">
+                                                {feature.text}
+                                                {feature.text === "Videography" && (
+                                                    <sup className="ml-0.5 align-super text-[10px] leading-none">
+                                                        2
+                                                    </sup>
+                                                )}
+                                            </span>
                                         </li>
                                     ))}
                                 </ul>

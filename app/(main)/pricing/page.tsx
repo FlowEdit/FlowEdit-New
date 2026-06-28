@@ -6,6 +6,7 @@ import { PlanType } from "@/components/shared/ToggleSwitch";
 import PriceBanner from "./components/PriceCarosel/PriceBanner";
 import PricingSection from "@/app/(dashboard)/dashboard/page";
 import PricingFaq from "./components/PricingFaq";
+import PricingPlanDetails from "./components/PricingPlanDetails";
 
 const PricingPage = () => {
   const [planType, setPlanType] = useState<PlanType>("monthly");
@@ -16,6 +17,7 @@ const PricingPage = () => {
         <PriceBanner value={planType} onToggleChange={setPlanType} />
         <ComparePlans currentPeriod={planType} />
         <PricingFaq />
+        <PricingPlanDetails />
       </div>
     </div>
   );
