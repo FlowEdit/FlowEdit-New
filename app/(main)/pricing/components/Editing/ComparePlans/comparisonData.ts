@@ -7,7 +7,15 @@ export interface CompareRow {
   last?: boolean;
 }
 
-export const planHeaders = [
+export interface ComparePlanHeader {
+  name: string;
+  priceLabel: string;
+  priceFootnote?: string;
+  pricePrefix?: string;
+  pricePrefixFootnote?: string;
+}
+
+export const planHeaders: ComparePlanHeader[] = [
   { name: "Launch", priceLabel: "Completely FREE", priceFootnote: "1" },
   {
     name: "Core",
