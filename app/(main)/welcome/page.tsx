@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PricingCard from "@/app/(main)/pricing/components/Pricing/PricingCard";
 import Footer from "@/components/shared/Footer/Footer";
+import AnnouncementBanner from "@/components/shared/AnnouncementBanner";
 import { LAUNCH_PAYMENT_LINK } from "@/lib/stripe/stripePaymentLinks";
 
 const trustedPlatforms = [
@@ -103,6 +104,8 @@ export default function WelcomePage() {
             </div>
           </div>
         </header>
+
+        <AnnouncementBanner />
 
         <div className='relative z-10 container mx-auto grid min-h-[760px] grid-cols-1 items-center gap-12 px-4 pb-24 pt-8 lg:min-h-[860px] lg:grid-cols-[45%_55%] lg:gap-10 lg:pb-28 lg:pt-10'>
           <div className='max-w-xl'>

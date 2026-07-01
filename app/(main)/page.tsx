@@ -8,7 +8,7 @@ import WorkflowSection from "@/components/homePage/WorkFlow/WorkFlow";
 import Head from "next/head";
 import LovedByCreatorsSection from "./portfolio/components/LoveCreator";
 import Duies2ndPart from "@/components/homePage/Duies2ndPart/Duies2ndPart";
-import GetStarted from "@/components/homePage/GetStarted/Getstarted";
+import EditingSpeedSection from "@/components/homePage/EditingSpeedSection/EditingSpeedSection";
 
 // import Navbar from "@/components/shared/navbar/Navbar";
 
@@ -31,7 +31,8 @@ export default function HomePage() {
         <Duies2ndPart />
         <LovedByCreatorsSection />
         {/* <LovedByCreatorsSection /> */}
-        <Faq />
+        <Faq showGetStarted={false} />
+        <EditingSpeedSection />
 
         {/* <Footer /> */}
       </div>

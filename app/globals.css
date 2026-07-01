@@ -132,6 +132,51 @@
   }
 }
 
+@keyframes flowedit-announcement-ticker {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.announcement-ticker__track {
+  width: max-content;
+  animation: flowedit-announcement-ticker 52s linear infinite;
+  will-change: transform;
+}
+
+.announcement-ticker__group {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement-ticker__track {
+    width: 100%;
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+
+  .announcement-ticker__group {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .announcement-ticker__group--duplicate,
+  .announcement-ticker__item:not(:first-child) {
+    display: none;
+  }
+
+  .announcement-ticker__item {
+    white-space: normal;
+    text-align: center;
+  }
+}
+
 /* .swiper-wrapper {
   @apply pb-5! bg-white/10!;
 }

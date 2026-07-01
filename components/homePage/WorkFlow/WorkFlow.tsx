@@ -10,24 +10,24 @@ import { LAUNCH_PAYMENT_LINK } from "@/lib/stripe/stripePaymentLinks";
 const projects = [
   {
     id: 1,
-    title: "Project Name",
+    title: "Upload Your Content",
     description:
-      "Share your footage and any relevant media assets via the upload portal",
-    imageSrc: "/images/upload (2).png",
+      "Securely upload your footage, brand assets, music, logos, and editing instructions through your FlowEdit dashboard. Whether you're submitting a single video or an entire content batch, getting started takes just a few minutes.",
+    imageSrc: "/images/home-page/Updated Workflow Part 1.png",
   },
   {
     id: 2,
-    title: "Project Name",
+    title: "Professional Editing",
     description:
-      "Your video is given an eye-catching thumbnail, tags, optimized for success and posted using our full service process.",
-    imageSrc: "/images/home-page/workflow-3.png",
+      "Your project is assigned to experienced editors who cut, color grade, add captions, motion graphics, sound design, and platform optimization—all tailored to your brand, audience, and goals.",
+    imageSrc: "/images/home-page/Updated Workflow Part 2.png",
   },
   {
     id: 3,
-    title: "Project Name",
+    title: "Review. Approve. Publish.",
     description:
-      "Our team of editors cuts, polishes, and optimizes a video to match your goals and audience.",
-    imageSrc: "/images/home-page/workflow-2.png",
+      "Review every edit from your dashboard, request revisions when needed, approve the final version, and publish with confidence. Your projects stay organized from submission through delivery.",
+    imageSrc: "/images/home-page/Updated Workflow Part 3.png",
   },
 ];
 
@@ -51,9 +51,14 @@ export default function WorkFlowSection() {
         height={500}
         width={500}
         className='h-full w-full absolute '></Image>
-      <p className='text-center text-3xl container md:text-4xl lg:text-[54px] font-semibold  pb-[42px]'>
-        A Simple Powerful Workflow
-      </p>
+      <div className='container pb-[42px] text-center'>
+        <p className='text-3xl md:text-4xl lg:text-[54px] font-semibold'>
+          A Simple, Powerful Workflow
+        </p>
+        <p className='mt-3 text-base md:text-lg text-[#000000B2]'>
+          Professional video editing in three simple steps.
+        </p>
+      </div>
 
       {/* Top cards */}
       <div className='container mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-20'>
@@ -61,13 +66,13 @@ export default function WorkFlowSection() {
           <div
             key={id}
             className='bg-[#e4ebf4] border bg-opacity-50 backdrop-blur-md rounded-xl shadow-lg p-2.5 flex flex-col'>
-            <div className='relative w-full h-40 rounded-lg overflow-hidden mb-6'>
+            <div className='relative flex w-full h-[220px] items-center justify-center rounded-2xl border border-slate-950/10 overflow-hidden mb-6 md:h-[280px]'>
               <Image
                 src={imageSrc}
                 alt={title}
                 width={369}
                 height={241}
-                className='object-cover w-full'
+                className='h-full w-full object-contain'
               />
             </div>
             <h3 className='font-semibold text-2xl md:text-3xl mb-2.5 leading-100%'>

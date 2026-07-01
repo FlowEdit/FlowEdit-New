@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import GetStarted from "../GetStarted/Getstarted";
 
-const Faq = () => {
+const Faq = ({ showGetStarted = true }: { showGetStarted?: boolean }) => {
   const pathname = usePathname();
   const [isMobile, setIsMobile] = useState(false);
 
@@ -68,7 +68,7 @@ const Faq = () => {
                 "mt-10 lg:mt-0 pt-[57px] lg:py-10"
               : "mt-10 lg:mt-0 pt-[57px] lg:py-10"
             }`}></div>
-          <GetStarted />
+          {showGetStarted && <GetStarted />}
         </div>
       </div>
     </div>
